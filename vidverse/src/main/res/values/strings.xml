@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">VidVerse</string>
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_my_reversed_video">我的倒播视频</string>
+    <string name="title_selected_reversed_video">精选倒播视频</string>
+    <string name="title_feedback">反馈</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -11,4 +11,9 @@
     <string name="action_example">Example action</string>
 
     <string name="action_settings">Settings</string>
+    <string name="send_feeback">发送</string>
+    <string name="edit_feedback_content_hint">反馈内容</string>
+    <string name="edit_feedback_mail_hint">您的邮箱（方便告知反馈的结果，选填）</string>
+    <string name="connect_us_hint">深入交流请联系我们的 Facebook</string>
+    <string name="connect_us_link">VidVerse</string>
 </resources>

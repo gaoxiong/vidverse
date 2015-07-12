@@ -36,15 +36,15 @@ public class Utils {
       if (f.isFile()) {
         if (isReversedVideoFile(f.getPath())) {
           fileList.add(f.getPath());
-        } else if (f.isDirectory() && f.getPath().indexOf("/.") == -1) {
-          getReversedVideoPath(f.getPath(), fileList);
         }
+      } else if (f.isDirectory() && f.getPath().indexOf("/.") == -1) {
+        getReversedVideoPath(f.getPath(), fileList);
       }
     }
   }
 
   public static String getFileNameFromPath(String path) {
-    String[] splitString = path.split("/");
+    String[] splitString = path.split(File.separator);
     int length = splitString.length - 1;
     if (length >= 0) {
       return splitString[length];
@@ -192,11 +192,22 @@ public class Utils {
 
   private static boolean isReversedVideoFile(String filePath) {
     String filename = getFileNameFromPath(filePath);
-    if (filename.startsWith("r_") && filename.endsWith(".mp4")) {
+    if (filename.startsWith(Consts.VIDVERSE_PREFIX) && filename.endsWith(".mp4")) {
       return true;
     } else {
       return false;
     }
+  }
+
+  public static boolean createFolder(String folder) {
+    if (folder == null) {
+      return false;
+    }
+    File f = new File(folder);
+    if (!f.exists()) {
+      return f.mkdirs();
+    }
+    return false;
   }
 
   public static Uri getOutputMediaFile() {
@@ -219,6 +230,21 @@ public class Utils {
   public static String generateStringFromTime() {
     DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     return dateFormat.format(new Date());
+  }
+
+  public static boolean isFolderExists(String strFolder, boolean bCreate) {
+    File file = new File(strFolder);
+    if (!file.exists()) {
+      if (!bCreate) {
+        return false;
+      }
+      if (file.mkdirs()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return true;
   }
 
   public static String getRealPathFromURI(Context context, Uri contentUri) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,17 +93,25 @@ public class DoReverseActivity extends ActionBarActivity {
 
   private void startReversing() {
     // do reversing
-//    if (nativeInit == 0) {
-//      Toast.makeText(context,
-//        "Start reversing...", Toast.LENGTH_SHORT).show();
-//      reversedVideoFilePath = fileDst;
-//      new ReverseTask(context).execute(origin_file_path, reversed_file_path,
-//        Long.valueOf(0), Long.valueOf(0),
-//        Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0));
-//    } else {
-//      Toast.makeText(context,
-//        "Native code not init!", Toast.LENGTH_SHORT).show();
-//    }
+    if (nativeInit == 0) {
+      Toast.makeText(context,
+        "Start reversing...", Toast.LENGTH_SHORT).show();
+      String filename = Utils.getFileNameFromPath(origin_file_path);
+      String reversedFileFolder = Consts.VIDVERSE_FOLDER + File.separator + Consts.VIDVERSE_REVERSED;
+      if (!Utils.createFolder(reversedFileFolder)) {
+        Log.d("reversing", "create folder error.");
+        Toast.makeText(context,
+          "Cannot create folder!", Toast.LENGTH_SHORT).show();
+        return;
+      }
+      reversed_file_path = reversedFileFolder + File.separator + Consts.VIDVERSE_PREFIX + filename;
+      new ReverseTask(this).execute(origin_file_path, reversed_file_path,
+        Long.valueOf(0), Long.valueOf(0),
+        Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0));
+    } else {
+      Toast.makeText(context,
+        "Native code not init!", Toast.LENGTH_SHORT).show();
+    }
   }
 
   @Override

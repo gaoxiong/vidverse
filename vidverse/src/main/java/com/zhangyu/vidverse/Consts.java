@@ -7,6 +7,7 @@ public class Consts {
   public static final String VIDVERSE_FOLDER = "/sdcard/vidverse/";
   public static final String VIDVERSE_RECORDE = "record";
   public static final String VIDVERSE_REVERSED = "reversed";
+  public static final String VIDVERSE_PREFIX = "r_";
 
   /* For Intent */
   public static final String VIDVERSE_REVERSED_FILEPATH = "reversed_file_path";

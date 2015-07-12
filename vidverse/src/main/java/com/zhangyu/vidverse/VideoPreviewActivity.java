@@ -5,10 +5,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.VideoView;
+
+import java.io.File;
 
 
 public class VideoPreviewActivity extends ActionBarActivity {
   private String reversed_file_path = "";
+  private VideoView videoView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +22,12 @@ public class VideoPreviewActivity extends ActionBarActivity {
     Intent intent = getIntent();
     if (intent != null) {
       reversed_file_path = intent.getStringExtra(Consts.VIDVERSE_REVERSED_FILEPATH);
+      File file = new File(reversed_file_path);
+      if (file.exists()) {
+        videoView = (VideoView)findViewById(R.id.vv_video_preview);
+        videoView.setVideoPath(reversed_file_path);
+        videoView.start();
+      }
     }
   }
 

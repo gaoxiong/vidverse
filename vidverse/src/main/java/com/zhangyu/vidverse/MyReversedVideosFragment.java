@@ -3,6 +3,7 @@ package com.zhangyu.vidverse;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,8 +67,13 @@ public class MyReversedVideosFragment extends Fragment {
       @Override
       public void onClick(View view) {
         // start camera
-        Intent intent = new Intent(context, CameraActivity.class);
-        context.startActivity(intent);
+//        Intent intent = new Intent(context, CameraActivity.class);
+//        context.startActivity(intent);
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Utils.getOutputMediaFile());
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0.5);
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 15);
+        startActivityForResult(intent, Consts.CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
       }
     });
     FrameLayout frameChooseLocal = (FrameLayout)view.findViewById(R.id.frame_menu_choose_local);
@@ -78,7 +84,7 @@ public class MyReversedVideosFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);//ACTION_OPEN_DOCUMENT
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("video/*");
-        startActivityForResult(intent, 0);
+        startActivityForResult(intent, Consts.CHOOSE_LOCAL_VIDEO_ACTIVITY_REQUEST_CODE);
       }
     });
     return view;
@@ -87,16 +93,21 @@ public class MyReversedVideosFragment extends Fragment {
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     String pickedFilepath = "";
-    if (requestCode == 0 && data != null) {
+    if (data == null || resultCode == 0) {
+      return;
+    }
+    if (requestCode == Consts.CHOOSE_LOCAL_VIDEO_ACTIVITY_REQUEST_CODE) {
       pickedFilepath = Utils.getRealPathFromURI(context, data.getData());
+    } else if (requestCode == Consts.CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
+      pickedFilepath = data.getData().toString();
     }
     if (pickedFilepath == null) {
       Toast.makeText(context, R.string.no_picked_video, Toast.LENGTH_SHORT).show();
-    } else {
-      Intent intent = new Intent(context, DoReverseActivity.class);
-      intent.putExtra(Consts.VIDVERSE_PICKED_FILEPATH, pickedFilepath);
-      context.startActivity(intent);
+      return;
     }
+    Intent intent = new Intent(context, DoReverseActivity.class);
+    intent.putExtra(Consts.VIDVERSE_PICKED_FILEPATH, pickedFilepath);
+    context.startActivity(intent);
   }
 
   private List<Map<String, Object>> initContentList() {

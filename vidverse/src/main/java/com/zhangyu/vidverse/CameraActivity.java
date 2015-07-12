@@ -11,24 +11,30 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class CameraActivity extends ActionBarActivity
   implements SurfaceHolder.Callback {
   private SurfaceView sv_camera;
   private MediaRecorder mediaRecorder;
   private Camera camera;
+  private boolean isCameraOpened = false;
   private boolean isRecording = false;
   private boolean mPreviewRunning = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    (new Thread(){
+      @Override
+      public void run() {
+        camera = Camera.open();
+        if (camera != null) {
+          isCameraOpened = true;
+        }
+      }
+    }).start();
     setContentView(R.layout.activity_camera);
     ActionBar actionBar = getSupportActionBar();
     if (actionBar != null) {
@@ -92,11 +98,6 @@ public class CameraActivity extends ActionBarActivity
       isRecording = true;
     } catch (Exception e) {
     }
-  }
-
-  private String generateStringFromTime() {
-    DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-    return dateFormat.format(new Date());
   }
 
   @Override
@@ -172,7 +173,7 @@ public class CameraActivity extends ActionBarActivity
 
   private boolean prepareMediaRecord() {
     String filename  = Consts.VIDVERSE_FOLDER +
-      Consts.VIDVERSE_RECORDE + "/VID-" + generateStringFromTime() + ".mp4";
+      Consts.VIDVERSE_RECORDE + "/VID-" + Utils.generateStringFromTime() + ".mp4";
     File file = new File(filename);
     if (file.exists()) {
       file.delete();

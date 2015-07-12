@@ -11,4 +11,6 @@ public class Consts {
   /* For Intent */
   public static final String VIDVERSE_REVERSED_FILEPATH = "reversed_file_path";
   public static final String VIDVERSE_PICKED_FILEPATH = "picked_file_path";
+  public static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
+  public static final int CHOOSE_LOCAL_VIDEO_ACTIVITY_REQUEST_CODE = 201;
 }

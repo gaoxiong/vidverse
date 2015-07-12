@@ -33,11 +33,12 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/videoview_bg_color"
         android:layout_above="@id/video_preview_bottom_bar"
         android:layout_alignParentTop="true">
-
-        <SurfaceView
-            android:id="@+id/surface_video_preview"
+        <VideoView
+            android:id="@+id/vv_video_preview"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </FrameLayout>

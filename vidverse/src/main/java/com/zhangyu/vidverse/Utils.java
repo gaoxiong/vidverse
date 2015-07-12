@@ -10,10 +10,15 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -192,6 +197,28 @@ public class Utils {
     } else {
       return false;
     }
+  }
+
+  public static Uri getOutputMediaFile() {
+    File mediaStorageDir = new File(Environment.getExternalStorageDirectory(),
+      "vidverse" + File.separator + "origin_videos");
+    if (!mediaStorageDir.exists()){
+      if (!mediaStorageDir.mkdirs()){
+        Log.d("vidverse/origin_videos", "failed to create directory");
+        return null;
+      }
+    }
+    File mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                              generateStringFromTime() + ".mp4");
+    if (mediaFile == null) {
+      return null;
+    }
+    return Uri.fromFile(mediaFile);
+  }
+
+  public static String generateStringFromTime() {
+    DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+    return dateFormat.format(new Date());
   }
 
   public static String getRealPathFromURI(Context context, Uri contentUri) {

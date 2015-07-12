@@ -12,6 +12,8 @@
         android:background="#00FFFF">
         <RelativeLayout
             android:visibility="gone"
+            android:id="@+id/reversing_parent"
+            android:layout_centerVertical="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
@@ -33,16 +35,33 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/imgview_center_image"/>
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/btn_start_reverse_parent"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_start_reverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_style"
+                android:gravity="center"
+                android:text="@string/start_reverse"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
     </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/videoview_bg_color"
         android:layout_above="@id/do_reverse_bottom_bar"
         android:layout_alignParentTop="true">
 
-        <SurfaceView
-            android:id="@+id/surface_video_preview"
+        <VideoView
+            android:id="@+id/vv_video_preview"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </FrameLayout>

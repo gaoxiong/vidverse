@@ -16,4 +16,10 @@
     <string name="edit_feedback_mail_hint">您的邮箱（方便告知反馈的结果，选填）</string>
     <string name="connect_us_hint">深入交流请联系我们的 Facebook</string>
     <string name="connect_us_link">VidVerse</string>
+    <string name="choose_camera">拍摄</string>
+    <string name="choose_local">本地选取</string>
+    <string name="camera_title">15秒内短视频</string>
+    <string name="title_activity_camera">CameraActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

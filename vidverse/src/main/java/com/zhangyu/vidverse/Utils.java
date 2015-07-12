@@ -1,5 +1,6 @@
 package com.zhangyu.vidverse;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -7,7 +8,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
 import java.io.File;
@@ -188,6 +191,31 @@ public class Utils {
       return true;
     } else {
       return false;
+    }
+  }
+
+  public static String getRealPathFromURI(Context context, Uri contentUri) {
+    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
+      DocumentsContract.isDocumentUri(context, contentUri)){
+      String wholeID = DocumentsContract.getDocumentId(contentUri);
+      String id = wholeID.split(":")[1];
+      String[] column = { MediaStore.Video.Media.DATA };
+      String sel = MediaStore.Video.Media._ID + "=?";
+      String filePath = "";
+      Cursor cursor = context.getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+        column, sel, new String[] { id }, null);
+      int columnIndex = cursor.getColumnIndex(column[0]);
+      if (cursor.moveToFirst()) {
+        filePath = cursor.getString(columnIndex);
+      }
+      cursor.close();
+      return filePath;
+    } else {
+      String[] proj = {MediaStore.Video.Media.DATA};
+      Cursor cursor = ((Activity)context).managedQuery(contentUri, proj, null, null, null);
+      int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+      cursor.moveToFirst();
+      return cursor.getString(column_index);
     }
   }
 }

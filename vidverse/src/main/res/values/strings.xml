@@ -20,6 +20,9 @@
     <string name="choose_local">本地选取</string>
     <string name="camera_title">15秒内短视频</string>
     <string name="title_activity_camera">CameraActivity</string>
+    <string name="title_activity_video_preview">VideoPreviewActivity</string>
+    <string name="no_picked_video">无效视频</string>
+    <string name="title_activity_do_reverse">DoReverseActivity</string>
 
     <string name="hello_world">Hello world!</string>
 </resources>

@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +50,16 @@ public class MyReversedVideosFragment extends Fragment {
         new String[] { "ItemImage", "ItemTitle", "ItemSize" },
         new int[] { R.id.ItemImage, R.id.ItemTitle, R.id.ItemSize });
     gridView.setAdapter(myReservedVideoAdapter);
+    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        HashMap<String, Object> item = (HashMap<String, Object>) adapterView.getItemAtPosition(i);
+        String filepath = item.get("ItemImage").toString();
+        Intent intent = new Intent(context, VideoPreviewActivity.class);
+        intent.putExtra(Consts.VIDVERSE_REVERSED_FILEPATH, filepath);
+        context.startActivity(intent);
+      }
+    });
 
     FrameLayout frameCamera = (FrameLayout)view.findViewById(R.id.frame_menu_camera);
     frameCamera.setOnClickListener(new View.OnClickListener() {
@@ -62,9 +75,28 @@ public class MyReversedVideosFragment extends Fragment {
       @Override
       public void onClick(View view) {
         // start choose local
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);//ACTION_OPEN_DOCUMENT
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("video/*");
+        startActivityForResult(intent, 0);
       }
     });
     return view;
+  }
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    String pickedFilepath = "";
+    if (requestCode == 0 && data != null) {
+      pickedFilepath = Utils.getRealPathFromURI(context, data.getData());
+    }
+    if (pickedFilepath == null) {
+      Toast.makeText(context, R.string.no_picked_video, Toast.LENGTH_SHORT).show();
+    } else {
+      Intent intent = new Intent(context, DoReverseActivity.class);
+      intent.putExtra(Consts.VIDVERSE_PICKED_FILEPATH, pickedFilepath);
+      context.startActivity(intent);
+    }
   }
 
   private List<Map<String, Object>> initContentList() {

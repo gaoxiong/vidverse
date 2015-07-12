@@ -2,6 +2,8 @@ package com.zhangyu.vidverse;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,9 @@ import java.io.File;
 
 public class DoReverseActivity extends ActionBarActivity {
   private int nativeInit = -1;
+  private int nativeTotalStep = 0;
+  private int nativeCurrentStep = 0;
+  private final int UPDATE_REVERSE_PROGRESS = 0;
 
   private Context context;
   private String origin_file_path = "";
@@ -50,6 +55,8 @@ public class DoReverseActivity extends ActionBarActivity {
   }
   private native int initNative();
   private native void deallocNative();
+  private native int getReverseTotalStep();
+  private native int getReverseCurrentStep();
   public native int reverseNative(String file_src, String file_dest,
                                   long positionUsStart, long positionUsEnd,
                                   int videoStreamNo,
@@ -108,6 +115,7 @@ public class DoReverseActivity extends ActionBarActivity {
       new ReverseTask(this).execute(origin_file_path, reversed_file_path,
         Long.valueOf(0), Long.valueOf(0),
         Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0));
+      reverseProgressThread.start();
     } else {
       Toast.makeText(context,
         "Native code not init!", Toast.LENGTH_SHORT).show();
@@ -121,6 +129,46 @@ public class DoReverseActivity extends ActionBarActivity {
     }
     super.finalize();
   }
+
+  private Handler mHandler = new Handler(){
+    @Override
+    public void handleMessage(Message msg) {
+      switch (msg.what) {
+        case UPDATE_REVERSE_PROGRESS: {
+          Log.i("reversing", "cur step:" + String.valueOf(nativeCurrentStep) +
+                ", total step:" + String.valueOf(nativeTotalStep));
+          break;
+        }
+        default:
+          break;
+      }
+    }
+  };
+
+  private Thread reverseProgressThread = new Thread(){
+    @Override
+    public void run() {
+      while (true) {
+        if (nativeTotalStep == 0) {
+          nativeTotalStep = DoReverseActivity.this.getReverseTotalStep();
+        }
+        nativeCurrentStep = DoReverseActivity.this.getReverseCurrentStep();
+        Message msg = Message.obtain();
+        msg.what = UPDATE_REVERSE_PROGRESS;
+        mHandler.sendMessage(msg);
+        if (nativeCurrentStep == nativeTotalStep && nativeTotalStep > 0) {
+          this.interrupt();
+          break;
+        }
+        try {
+          sleep(500);
+        } catch (InterruptedException e) {
+          Log.d("reversing", "thread error.");
+          e.printStackTrace();
+        }
+      }
+    }
+  };
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {

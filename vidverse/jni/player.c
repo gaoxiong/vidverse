@@ -2664,14 +2664,24 @@ int jni_player_reverse(JNIEnv *env, jobject thiz, jstring stringSrc,
 		jstring stringDesc, jlong positionUsStart, jlong positionUsEnd,
 		int video_stream_no, int audio_stream_no,
 		int subtitle_stream_no) {
-		const char *file_path_src = (*env)->GetStringUTFChars(env, stringSrc, NULL);
-		const char *file_path_desc = (*env)->GetStringUTFChars(env, stringDesc, NULL);
+	const char *file_path_src = (*env)->GetStringUTFChars(env, stringSrc, NULL);
+	const char *file_path_desc = (*env)->GetStringUTFChars(env, stringDesc, NULL);
     int ret = reverse(file_path_src, file_path_desc,
       positionUsStart, positionUsEnd,
       video_stream_no, audio_stream_no, subtitle_stream_no);
     (*env)->ReleaseStringUTFChars(env, stringSrc, file_path_src);
     (*env)->ReleaseStringUTFChars(env, stringDesc, file_path_desc);
     return ret;
+}
+
+int jni_player_get_total_step(JNIEnv *env, jobject thiz) {
+  int ret = getTotalStep();
+  return ret;
+}
+
+int jni_player_get_current_step(JNIEnv *env, jobject thiz) {
+  int ret = getCurrentStep();
+  return ret;
 }
 
 int jni_player_set_data_source(JNIEnv *env, jobject thiz, jstring string,

@@ -115,6 +115,9 @@ static JavaMethod audio_track_get_sample_rate = {"getSampleRate", "()I"};
 int jni_player_init(JNIEnv *env, jobject thiz);
 void jni_player_dealloc(JNIEnv *env, jobject thiz);
 
+int jni_player_get_total_step(JNIEnv *env, jobject thiz);
+int jni_player_get_current_step(JNIEnv *env, jobject thiz);
+
 void jni_player_seek(JNIEnv *env, jobject thiz, jlong positionUs);
 
 void jni_player_pause(JNIEnv *env, jobject thiz);
@@ -140,6 +143,9 @@ static JNINativeMethod player_methods[] = {
 
 	{"initNative", "()I", (void*) jni_player_init},
 	{"deallocNative", "()V", (void*) jni_player_dealloc},
+
+	{"getReverseTotalStep", "()I", (void*) jni_player_get_total_step},
+	{"getReverseCurrentStep", "()I", (void*) jni_player_get_current_step},
 
 //	{"seekNative", "(J)V", (void*) jni_player_seek},
 //

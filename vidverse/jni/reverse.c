@@ -28,7 +28,8 @@ int frameCount = 0;
 int width, height;
 int encodeFramePos = 0;
 int got_frame = -1;
-
+int TOTAL_STEP = 0;
+int CURRENT_STEP = 0;
 
 typedef struct YUVBufferList{
   uint8_t*       data[4];
@@ -294,6 +295,7 @@ int encodeYUVBufferList() {
         LOGI(LOG_LEVEL, "[output] write frame failed: %d \n", ret);
       } else {
         encodeFramePos++;
+        CURRENT_STEP = encodeFramePos;
       }
     }
   }
@@ -345,6 +347,7 @@ int decode2YUV2Video(const char* SRC_FILE, const char* OUT_FMT_FILE) {
   if (frameCount <= 0) {
     goto end;
   }
+  TOTAL_STEP = frameCount;
   width = st_src->codec->width;
   height = st_src->codec->height;
   
@@ -377,34 +380,41 @@ int decode2YUV2Video(const char* SRC_FILE, const char* OUT_FMT_FILE) {
     encodeYUVBufferList(encodeFramePos);
   }
   ret = writeTrailer(formatContext_dst);
+  CURRENT_STEP = TOTAL_STEP;
 end:
   freeReuseBuffer();
-  //closeEncodeEnvironment();
-  //closeDecodeEnvironment();
+  closeEncodeEnvironment();
+  closeDecodeEnvironment();
   return ret;
 }
 
 void closeEncodeEnvironment() {
   if (formatContext_dst) {
     avformat_close_input(&formatContext_dst);
+    formatContext_dst = NULL;
   }
   if (frame_dst) {
     av_free(frame_dst);
+    frame_dst = NULL;
   }
   if (st_dst && st_dst->codec) {
     avcodec_close(st_dst->codec);
+    st_dst = NULL;
   }
 }
 
 void closeDecodeEnvironment() {
   if (formatContext_src) {
     avformat_close_input(&formatContext_src);
+    formatContext_src = NULL;
   }
   if (frame_src) {
     av_free(frame_src);
+    frame_src = NULL;
   }
   if (st_src && st_src->codec) {
     avcodec_close(st_src->codec);
+    st_src = NULL;
   }
 }
 
@@ -423,6 +433,14 @@ int reverse(char *file_path_src, char *file_path_desc,
   LOGI(LOG_LEVEL, "reversing...");
   av_register_all();
   return decode2YUV2Video(file_path_src, file_path_desc);
+}
+
+int getTotalStep() {
+  return TOTAL_STEP;
+}
+
+int getCurrentStep() {
+  return CURRENT_STEP;
 }
 
 

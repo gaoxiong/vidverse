@@ -207,7 +207,7 @@ public class Utils {
     if (!f.exists()) {
       return f.mkdirs();
     }
-    return false;
+    return true;
   }
 
   public static Uri getOutputMediaFile() {

@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import java.io.File;
 
@@ -18,7 +17,7 @@ import java.io.File;
 public class VideoPreviewActivity extends ActionBarActivity {
   private String reversed_file_path = "";
   private String origin_file_path = "";
-  private VideoView videoView;
+  private RecircledVideoView videoView;
   private ImageButton imageButtonReversingOrigin;
   private ImageButton imageButtonReversed;
   private ImageButton imageButtonTitleBack;
@@ -46,7 +45,7 @@ public class VideoPreviewActivity extends ActionBarActivity {
       reversed_file_path = intent.getStringExtra(Consts.VIDVERSE_REVERSED_FILEPATH);
       File file = new File(reversed_file_path);
       if (file.exists()) {
-        videoView = (VideoView)findViewById(R.id.vv_video_preview);
+        videoView = (RecircledVideoView)findViewById(R.id.vv_video_preview);
         videoView.setVideoPath(reversed_file_path);
         current_source = VIDEO_SOURCE.REVERSED;
         videoView.setMediaController(new MediaController(this));

@@ -14,8 +14,8 @@
         android:background="@drawable/grid_bar_bg"
         android:layout_width="@dimen/thumbnail_width_large"
         android:layout_height="@dimen/thumbnail_bottom_bar_height">
-        <ImageButton
-            android:id="@+id/imgbtn_share"
+        <ImageView
+            android:id="@+id/imgview_share"
             android:layout_width="@dimen/thumbnail_bottom_bar_share_width"
             android:layout_height="@dimen/thumbnail_bottom_bar_share_height"
             android:background="@color/transparenct_color"

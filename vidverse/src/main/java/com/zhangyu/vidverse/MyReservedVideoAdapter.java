@@ -102,9 +102,9 @@ public class MyReservedVideoAdapter extends SimpleAdapter {
         if (!bound) {
           if (v instanceof TextView) {
             setViewText((TextView) v, text);
-          } else if (v instanceof ImageButton) {
+          } else if (v.getId() == R.id.imgview_share) {
             v.setTag(data);
-          } else if (v instanceof ImageView) {
+          } else if (v.getId() == R.id.ItemImage) {
             ((ImageView) v).setImageBitmap((Bitmap) data);
           } else {
             throw new IllegalStateException(v.getClass().getName() + " is not a " +

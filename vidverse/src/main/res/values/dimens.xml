@@ -19,6 +19,7 @@
     <dimen name="title_image_text_margin">48dp</dimen>
     <dimen name="title_text_size">28dp</dimen>
     <dimen name="imgbtn_border">5dp</dimen>
+    <dimen name="gridview_item_spacing">10dp</dimen>
     <dimen name="thumbnail_width_large">226dp</dimen>
     <dimen name="thumbnail_height_large">286dp</dimen>
     <dimen name="thumbnail_bottom_bar_height">46dp</dimen>
@@ -26,4 +27,5 @@
     <dimen name="thumbnail_bottom_bar_share_height">30dp</dimen>
     <dimen name="progress_bar_height">8dp</dimen>
     <dimen name="progress_bar_margin">30dp</dimen>
+    <dimen name="float_hide_button">120dp</dimen>
 </resources>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +79,7 @@ public class MyReversedVideosFragment extends Fragment {
         new MyReservedVideoAdapter(this.getActivity(),
           contents, R.layout.my_reserved_videos_items,
           new String[]{"FileThumbnail", "FilePath", "VideoLength"},
-          new int[]{R.id.ItemImage, R.id.imgbtn_share, R.id.textview_video_length});
+          new int[]{R.id.ItemImage, R.id.imgview_share, R.id.textview_video_length});
       gridView.setAdapter(myReservedVideoAdapter);
       gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         @Override
@@ -167,7 +168,7 @@ public class MyReversedVideosFragment extends Fragment {
         getResources().getDimension(R.dimen.thumbnail_width_large),
         getResources().getDimension(R.dimen.thumbnail_height_large)));
       map.put("FilePath", filePath);
-      map.put("VideoLength", "20K");
+      map.put("VideoLength", Utils.getVideoDurationFromPath(filePath));
       contents.add(map);
     }
     return contents;

@@ -78,7 +78,7 @@
         android:layout_above="@id/do_reverse_bottom_bar"
         android:layout_alignParentTop="true">
 
-        <VideoView
+        <com.zhangyu.vidverse.RecircledVideoView
             android:id="@+id/vv_video_preview"
             android:layout_gravity="center"
             android:layout_width="match_parent"

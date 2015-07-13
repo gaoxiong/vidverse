@@ -20,8 +20,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
-
 import java.io.File;
 
 
@@ -33,7 +31,7 @@ public class DoReverseActivity extends ActionBarActivity {
   private Context context;
   private String origin_file_path = "";
   private String reversed_file_path = "";
-  private VideoView videoView;
+  private RecircledVideoView videoView;
   private ImageButton imageButtonTitleBack;
   private ImageButton imageButtonTitleShare;
   private EditText editTextTitle;
@@ -90,7 +88,7 @@ public class DoReverseActivity extends ActionBarActivity {
       origin_file_path = intent.getStringExtra(Consts.VIDVERSE_PICKED_FILEPATH);
       File file = new File(origin_file_path);
       if (file.exists()) {
-        videoView = (VideoView)findViewById(R.id.vv_video_preview);
+        videoView = (RecircledVideoView)findViewById(R.id.vv_video_preview);
         videoView.setVideoPath(origin_file_path);
         videoView.setMediaController(new MediaController(this));
         videoView.start();
@@ -211,8 +209,8 @@ public class DoReverseActivity extends ActionBarActivity {
     imageButtonReversingOrigin.setOnClickListener(imageButtonClickListener);
     relativeLayoutReversedParent = (RelativeLayout)findViewById(R.id.relativelayout_imgbtn_reversed_parent);
     imageButtonReversingPlaceholder.setOnClickListener(imageButtonClickListener);
-    imageButtonReversingPlaceholder.setImageBitmap(Utils.getVideoThumbnailBitmap(context,
-      reversed_file_path));
+//    imageButtonReversingPlaceholder.setImageBitmap(Utils.getVideoThumbnailBitmap(context,
+//      reversed_file_path));
     current_source = VIDEO_SOURCE.ORIGIN;
   }
 

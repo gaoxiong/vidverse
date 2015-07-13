@@ -383,8 +383,8 @@ int decode2YUV2Video(const char* SRC_FILE, const char* OUT_FMT_FILE) {
   CURRENT_STEP = TOTAL_STEP;
 end:
   freeReuseBuffer();
-  closeEncodeEnvironment();
-  closeDecodeEnvironment();
+//  closeEncodeEnvironment();
+//  closeDecodeEnvironment();
   return ret;
 }
 

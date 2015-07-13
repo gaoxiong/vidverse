@@ -43,6 +43,26 @@ public class Utils {
     }
   }
 
+  public static String getOriginFilePath(Context context, String reversedFilepath) {
+    String filename = getFileNameFromPath(reversedFilepath).replace(Consts.VIDVERSE_PREFIX, "");
+    Cursor cursor = context.getContentResolver().query(
+      MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+      new String[]{MediaStore.Video.Media._ID},
+      MediaStore.MediaColumns.DISPLAY_NAME + "='" + filename + "'",
+      null, null);
+    String filepath = "";
+    if (cursor != null) {
+      if (cursor.moveToFirst()) {
+        int idIndex = cursor.getColumnIndex(MediaStore.MediaColumns.TITLE);
+        if (idIndex >= 0) {
+          filepath = cursor.getString(idIndex);
+        }
+      }
+      cursor.close();
+    }
+    return filepath;
+  }
+
   public static String getFileNameFromPath(String path) {
     String[] splitString = path.split(File.separator);
     int length = splitString.length - 1;
@@ -51,6 +71,24 @@ public class Utils {
     } else {
       return "";
     }
+  }
+
+  public static Bitmap getVideoThumbnailBitmap(Context context, String path,
+                                               int width, int height) {
+    if (width == 0 || height == 0) {
+      return getVideoThumbnailBitmap(context, path);
+    }
+    Bitmap thumbnail = getVideoThumbnailBitmap(context, path,
+      MediaStore.Video.Thumbnails.FULL_SCREEN_KIND, null);
+    if (thumbnail != null) {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
+        thumbnail = android.media.ThumbnailUtils.extractThumbnail(
+          thumbnail, width, height);
+      } else {
+        thumbnail = scaleDown(thumbnail, width, height, true);
+      }
+    }
+    return thumbnail;
   }
 
   public static Bitmap getVideoThumbnailBitmap(Context context, String path) {

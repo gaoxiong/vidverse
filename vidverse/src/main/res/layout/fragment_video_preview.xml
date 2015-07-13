@@ -18,14 +18,14 @@
             android:layout_centerVertical="true" />
         <ImageButton
             android:id="@+id/imgbtn_video_preview_origin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/imgbtn_square_width"
+            android:layout_height="@dimen/imgbtn_square_height"
             android:layout_toLeftOf="@id/imgview_center_image"
             android:layout_centerVertical="true"/>
         <ImageButton
             android:id="@+id/imgbtn_video_preview_reversed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/imgbtn_square_width"
+            android:layout_height="@dimen/imgbtn_square_height"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/imgview_center_image"/>
     </RelativeLayout>

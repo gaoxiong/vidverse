@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -75,7 +76,11 @@ public class DoReverseActivity extends ActionBarActivity {
       if (file.exists()) {
         videoView = (VideoView)findViewById(R.id.vv_video_preview);
         videoView.setVideoPath(origin_file_path);
+        videoView.setMediaController(new MediaController(this));
         videoView.start();
+        imageButtonReversingOrigin = (ImageButton) findViewById(R.id.imgbtn_video_preview_origin);
+        imageButtonReversingOrigin.setImageBitmap(
+          Utils.getVideoThumbnailBitmap(context, origin_file_path));
       }
       nativeInit = initNative();
     }

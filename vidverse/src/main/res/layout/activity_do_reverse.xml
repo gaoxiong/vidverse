@@ -22,18 +22,35 @@
                 android:layout_height="@dimen/imgbtn_square_height"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true" />
-            <ImageButton
-                android:id="@+id/imgbtn_video_preview_origin"
-                android:layout_width="@dimen/imgbtn_square_width"
-                android:layout_height="@dimen/imgbtn_square_height"
+            <RelativeLayout
+                android:id="@+id/relativelayout_imgbtn_origin_parent"
                 android:layout_toLeftOf="@id/imgview_center_image"
-                android:layout_centerVertical="true"/>
-            <ImageButton
-                android:id="@+id/imgbtn_video_preview_reversed"
-                android:layout_width="@dimen/imgbtn_square_width"
-                android:layout_height="@dimen/imgbtn_square_height"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/imgview_center_image"/>
+                android:background="@color/bg_color_btn"
+                android:layout_width="@dimen/imgbtn_parent_square_width"
+                android:layout_height="@dimen/imgbtn_parent_square_height">
+                <ImageButton
+                    android:id="@+id/imgbtn_video_preview_origin"
+                    android:layout_width="@dimen/imgbtn_square_width"
+                    android:layout_height="@dimen/imgbtn_square_height"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/relativelayout_imgbtn_reversed_parent"
+                android:layout_width="@dimen/imgbtn_parent_square_width"
+                android:layout_height="@dimen/imgbtn_parent_square_height"
+                android:background="@color/transparenct_color"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/imgview_center_image">
+                <ImageButton
+                    android:id="@+id/imgbtn_video_preview_reversed"
+                    android:layout_width="@dimen/imgbtn_square_width"
+                    android:layout_height="@dimen/imgbtn_square_height"
+                    android:src="@drawable/image_reverse_placeholder"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/btn_start_reverse_parent"
@@ -83,6 +100,7 @@
             android:layout_marginLeft="@dimen/title_image_left_margin"
             android:layout_centerVertical="true" />
         <TextView
+            android:id="@+id/title_do_reverse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -90,7 +108,7 @@
             android:layout_marginLeft="@dimen/title_image_text_margin"
             android:textColor="@color/btn_text_color"
             android:textSize="@dimen/title_text_size"
-            android:text="@string/camera_title" />
+            android:text="@string/title_origin_video" />
         <ImageButton
             android:id="@+id/imgbtn_video_preview_share"
             android:layout_width="wrap_content"
@@ -99,5 +117,27 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true" />
     </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_reversing"
+        android:layout_above="@id/do_reverse_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/progress_bar_margin"
+        android:layout_marginRight="@dimen/progress_bar_margin"
+        android:layout_marginBottom="@dimen/progress_bar_margin"
+        android:layout_height="@dimen/progress_bar_height"
+        android:background="@drawable/progress_bar_background"
+        android:visibility="gone"
+        android:progressDrawable="@drawable/progressbar_color"
+        style="?android:attr/progressBarStyleHorizontal"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/reversed_done"
+        android:src="@drawable/img_reverse_finished"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 
 </RelativeLayout>

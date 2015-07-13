@@ -2,6 +2,8 @@ package com.zhangyu.vidverse;
 
 import android.content.ContentValues;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.Toast;
 
 /**
@@ -13,9 +15,11 @@ public class ReverseTask extends
   private final DoReverseActivity activity;
   private String origin_file_path = "";
   private String reversed_file_path = "";
+  private Handler handler;
 
-  public ReverseTask(DoReverseActivity activity) {
+  public ReverseTask(DoReverseActivity activity, Handler handler) {
     this.activity = activity;
+    this.handler = handler;
   }
 
   @Override
@@ -49,9 +53,19 @@ public class ReverseTask extends
       values.put(OriginReversedMapping.OriginReverse.ORIGIN, origin_file_path);
       values.put(OriginReversedMapping.OriginReverse.REVERSED, reversed_file_path);
       activity.getContentResolver().insert(OriginReversedMapping.OriginReverse.CONTENT_URI, values);
+
+      Message msg = Message.obtain();
+      msg.what = Consts.REVERSE_PROGRESS_DONE;
+      handler.sendMessage(msg);
     } else {
       Toast.makeText(activity.getApplicationContext(),
         "Reverse ERROR!", Toast.LENGTH_SHORT).show();
+
+      if (handler != null) {
+        Message msg = Message.obtain();
+        msg.what = Consts.REVERSE_PROGRESS_ERROR;
+        handler.sendMessage(msg);
+      }
     }
   }
 }

@@ -58,7 +58,7 @@ public class VideoPreviewActivity extends ActionBarActivity {
         origin_file_path = Utils.getOriginFilePath(this, reversed_file_path);
         imageButtonReversingOrigin = (ImageButton) findViewById(R.id.imgbtn_video_preview_origin);
         if (origin_file_path == "") {
-          imageButtonReversingOrigin.setImageDrawable(res.getDrawable(R.drawable.btn_choose_reverse));
+//          imageButtonReversingOrigin.setImageDrawable(res.getDrawable(R.drawable.btn_choose_reverse));
         } else {
           imageButtonReversingOrigin.setImageBitmap(
             Utils.getVideoThumbnailBitmap(this, origin_file_path));

@@ -5,4 +5,7 @@
     <color name="bg_color_title">#e6004664</color>
     <color name="videoview_bg_color">#000000</color>
     <color name="btn_text_color">#FFFFFFFF</color>
+    <color name="transparenct_color">#00000000</color>
+    <color name="progress_bg_color">#ff004664</color>
+    <color name="progress_fore_color">#ff00b3ff</color>
 </resources>

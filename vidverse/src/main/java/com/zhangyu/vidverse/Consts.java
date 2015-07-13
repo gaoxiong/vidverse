@@ -14,4 +14,9 @@ public class Consts {
   public static final String VIDVERSE_PICKED_FILEPATH = "picked_file_path";
   public static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
   public static final int CHOOSE_LOCAL_VIDEO_ACTIVITY_REQUEST_CODE = 201;
+
+  /* handler message */
+  public static final int UPDATE_REVERSE_PROGRESS = 100;
+  public static final int REVERSE_PROGRESS_ERROR = 101;
+  public static final int REVERSE_PROGRESS_DONE = 102;
 }

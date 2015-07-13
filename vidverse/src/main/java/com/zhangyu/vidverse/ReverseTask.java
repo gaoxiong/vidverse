@@ -1,5 +1,6 @@
 package com.zhangyu.vidverse;
 
+import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -10,6 +11,8 @@ public class ReverseTask extends
   AsyncTask<Object, Void, Integer> {
 
   private final DoReverseActivity activity;
+  private String origin_file_path = "";
+  private String reversed_file_path = "";
 
   public ReverseTask(DoReverseActivity activity) {
     this.activity = activity;
@@ -17,8 +20,8 @@ public class ReverseTask extends
 
   @Override
   protected Integer doInBackground(Object... params) {
-    String file_src = (String) params[0];
-    String file_dest = (String) params[1];
+    origin_file_path = (String) params[0];
+    reversed_file_path = (String) params[1];
 
     long startTime = (Long) params[2];
     long endTime = (Long) params[3];
@@ -31,7 +34,7 @@ public class ReverseTask extends
     int audioStreamNo = audioStream == null ? -1 : audioStream.intValue();
     int subtitleStreamNo = subtitleStream == null ? -1 : subtitleStream.intValue();
 
-    int result = activity.reverseNative(file_src, file_dest, startTime, endTime,
+    int result = activity.reverseNative(origin_file_path, reversed_file_path, startTime, endTime,
       videoStreamNo, audioStreamNo, subtitleStreamNo);
 
     return result;
@@ -42,6 +45,10 @@ public class ReverseTask extends
     if (result >= 0) {
       Toast.makeText(activity.getApplicationContext(),
         "Reverse DONE!", Toast.LENGTH_SHORT).show();
+      ContentValues values = new ContentValues();
+      values.put(OriginReversedMapping.OriginReverse.ORIGIN, origin_file_path);
+      values.put(OriginReversedMapping.OriginReverse.REVERSED, reversed_file_path);
+      activity.getContentResolver().insert(OriginReversedMapping.OriginReverse.CONTENT_URI, values);
     } else {
       Toast.makeText(activity.getApplicationContext(),
         "Reverse ERROR!", Toast.LENGTH_SHORT).show();

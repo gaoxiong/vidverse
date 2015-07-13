@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg_color">#f4f4f4</color>
+    <color name="bg_color_btn">#ff00b3ff</color>
+    <color name="bg_color_bar">#ff004664</color>
+    <color name="bg_color_title">#e6004664</color>
     <color name="videoview_bg_color">#000000</color>
+    <color name="btn_text_color">#FFFFFFFF</color>
 </resources>

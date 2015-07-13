@@ -32,8 +32,8 @@ public class DoReverseActivity extends ActionBarActivity {
   private String origin_file_path = "";
   private String reversed_file_path = "";
   private VideoView videoView;
-  private ImageButton imageButtonTitle;
-  private ImageButton imageButtonShare;
+  private ImageButton imageButtonTitleBack;
+  private ImageButton imageButtonTitleShare;
   private EditText editTextTitle;
   private RelativeLayout relativeLayoutStartReverse;
   private Button btnStartReverse;
@@ -101,6 +101,15 @@ public class DoReverseActivity extends ActionBarActivity {
     reversingAnim = (ImageView) findViewById(R.id.imgview_center_image);
     imageButtonReversingOrigin = (ImageButton) findViewById(R.id.imgbtn_video_preview_origin);
     imageButtonReversingPlaceholder = (ImageButton) findViewById(R.id.imgbtn_video_preview_reversed);
+    // init title
+    imageButtonTitleBack = (ImageButton)findViewById(R.id.imgbtn_video_preview_title);
+    imageButtonTitleBack.setOnClickListener(new View.OnClickListener(){
+      @Override
+      public void onClick(View v) {
+        finish();
+      }
+    });
+    imageButtonTitleShare = (ImageButton)findViewById(R.id.imgbtn_video_preview_share);
   }
 
   private void startReversing() {
@@ -190,7 +199,7 @@ public class DoReverseActivity extends ActionBarActivity {
     int id = item.getItemId();
 
     //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
+    if (id == R.id.action_share) {
       return true;
     }
 

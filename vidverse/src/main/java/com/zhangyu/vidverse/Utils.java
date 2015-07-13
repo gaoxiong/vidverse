@@ -44,23 +44,47 @@ public class Utils {
   }
 
   public static String getOriginFilePath(Context context, String reversedFilepath) {
-    String filename = getFileNameFromPath(reversedFilepath).replace(Consts.VIDVERSE_PREFIX, "");
+    String filepath = getOriginFilePath(reversedFilepath);
+    if (isFolderExists(filepath, false)) {
+      return filepath;
+    }
+    Uri reversedUri = OriginReversedMapping.OriginReverse.CONTENT_URI;
+    String columns[] = new String[] { OriginReversedMapping.OriginReverse._ID,
+      OriginReversedMapping.OriginReverse.ORIGIN,
+      OriginReversedMapping.OriginReverse.REVERSED};
     Cursor cursor = context.getContentResolver().query(
-      MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-      new String[]{MediaStore.Video.Media._ID},
-      MediaStore.MediaColumns.DISPLAY_NAME + "='" + filename + "'",
+      reversedUri, columns,
+      OriginReversedMapping.OriginReverse.REVERSED + "='" + reversedFilepath + "'",
       null, null);
-    String filepath = "";
     if (cursor != null) {
       if (cursor.moveToFirst()) {
-        int idIndex = cursor.getColumnIndex(MediaStore.MediaColumns.TITLE);
+        int idIndex = cursor.getColumnIndex(OriginReversedMapping.OriginReverse.ORIGIN);
         if (idIndex >= 0) {
           filepath = cursor.getString(idIndex);
         }
       }
       cursor.close();
     }
-    return filepath;
+    if (isFolderExists(filepath, false)) {
+      return filepath;
+    }
+    return "";
+  }
+
+  private static String getOriginFilePath(String reversedFilepath) {
+    int pos = reversedFilepath.lastIndexOf(File.separator);
+    String filepath = "";
+    String folder = "";
+    String filename = "";
+
+    if (pos >= 0) {
+      folder = reversedFilepath.substring(0, pos);
+      filename = reversedFilepath.substring(pos + 1);
+    } else {
+      filename = reversedFilepath;
+    }
+    filename = filename.substring(Consts.VIDVERSE_PREFIX.length());
+    return folder + File.separator + filename;
   }
 
   public static String getFileNameFromPath(String path) {
@@ -74,8 +98,8 @@ public class Utils {
   }
 
   public static Bitmap getVideoThumbnailBitmap(Context context, String path,
-                                               int width, int height) {
-    if (width == 0 || height == 0) {
+                                               float width, float height) {
+    if (width == 0.0 || height == 0.0) {
       return getVideoThumbnailBitmap(context, path);
     }
     Bitmap thumbnail = getVideoThumbnailBitmap(context, path,
@@ -83,9 +107,9 @@ public class Utils {
     if (thumbnail != null) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
         thumbnail = android.media.ThumbnailUtils.extractThumbnail(
-          thumbnail, width, height);
+          thumbnail, (int)width, (int)height);
       } else {
-        thumbnail = scaleDown(thumbnail, width, height, true);
+        thumbnail = scaleDown(thumbnail, (int)width, (int)height, true);
       }
     }
     return thumbnail;

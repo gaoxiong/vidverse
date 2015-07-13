@@ -4,58 +4,118 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/GridView"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:numColumns="2"
-              android:columnWidth="90dp"
-              android:layout_margin="5dp"
-              android:stretchMode="columnWidth"
-              android:gravity="center">
-    </GridView>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/gridview_parent"
+        android:visibility="gone"
+        >
+        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:id="@+id/GridView"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:numColumns="2"
+                  android:columnWidth="90dp"
+                  android:layout_margin="5dp"
+                  android:stretchMode="columnWidth"
+                  android:gravity="center">
+        </GridView>
 
-    <ImageView
-            android:id="@+id/btn_choose_reverse"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@drawable/btn_choose_reverse"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"/>
-
-    <FrameLayout
-        android:layout_above="@id/btn_choose_reverse"
-        android:layout_alignRight="@id/btn_choose_reverse"
-        android:layout_marginRight="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/frame_menu_camera"
-        android:background="@color/bg_color">
         <ImageView
+                android:id="@+id/btn_choose_reverse"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/btn_float_reverse"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"/>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_hide_menu"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_above="@id/btn_choose_reverse"
+            android:layout_alignRight="@id/btn_choose_reverse"
+            android:layout_centerVertical="true"
+            android:background="@drawable/img_hide_menu_bg">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/frame_menu_camera">
+                <ImageView
+                    android:id="@+id/img_hide_menu_rec"
+                    android:src="@drawable/img_hide_menu_rec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_toRightOf="@id/img_hide_menu_rec"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/btn_text_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/choose_camera"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_below="@id/frame_menu_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/frame_menu_choose_local">
+                <ImageView
+                    android:id="@+id/img_hide_menu_local"
+                    android:src="@drawable/img_hide_menu_local"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_toRightOf="@id/img_hide_menu_local"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/btn_text_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/choose_local"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/empty_videos_parent"
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/choose_camera"/>
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_above="@id/frame_menu_camera"
-        android:layout_alignRight="@id/btn_choose_reverse"
-        android:layout_marginRight="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/frame_menu_choose_local"
-        android:background="@color/bg_color">
+            android:layout_centerInParent="true"
+            android:id="@+id/textview_no_videos"
+            android:text="@string/no_reversed_videos"/>
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
+            android:layout_height="wrap_content"
+            android:src="@drawable/no_reversed_videos"
+            android:layout_above="@id/textview_no_videos"/>
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/choose_local"/>
-    </FrameLayout>
+            android:layout_centerInParent="true"
+            android:text="@string/choose_camera"
+            android:layout_below="@id/textview_no_videos"
+            android:id="@+id/btn_start_camera"
+            android:background="@drawable/button_style"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btn_width_large"
+            android:layout_centerInParent="true"
+            android:text="@string/choose_local"
+            android:layout_below="@id/btn_start_camera"
+            android:id="@+id/btn_choose_local"
+            android:background="@drawable/button_style"/>
+    </RelativeLayout>
 </RelativeLayout>

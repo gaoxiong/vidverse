@@ -11,7 +11,6 @@ import android.graphics.Rect;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -72,7 +71,8 @@ public class Utils {
       OriginReversedMapping.OriginReverse.REVERSED};
     Cursor cursor = context.getContentResolver().query(
       reversedUri, columns,
-      OriginReversedMapping.OriginReverse.REVERSED + "='" + reversedFilepath + "'",
+      OriginReversedMapping.OriginReverse.REVERSED + "='" +
+        reversedFilepath.replace("//", "/").toLowerCase() + "'",
       null, null);
     if (cursor != null) {
       if (cursor.moveToFirst()) {
@@ -90,19 +90,12 @@ public class Utils {
   }
 
   private static String getOriginFilePath(String reversedFilepath) {
-    int pos = reversedFilepath.lastIndexOf(File.separator);
-    String filepath = "";
-    String folder = "";
-    String filename = "";
-
-    if (pos >= 0) {
-      folder = reversedFilepath.substring(0, pos);
-      filename = reversedFilepath.substring(pos + 1);
-    } else {
-      filename = reversedFilepath;
+    String filename = getFileNameFromPath(reversedFilepath);
+    if (filename == "") {
+      return "";
     }
     filename = filename.substring(Consts.VIDVERSE_PREFIX.length());
-    return folder + File.separator + filename;
+    return Consts.VIDVERSE_RECORD_FOLDER + File.separator + filename;
   }
 
   public static String getFileNameFromPath(String path) {
@@ -291,11 +284,10 @@ public class Utils {
   }
 
   public static Uri getOutputMediaFile() {
-    File mediaStorageDir = new File(Environment.getExternalStorageDirectory(),
-      "vidverse" + File.separator + "origin_videos");
+    File mediaStorageDir = new File(Consts.VIDVERSE_RECORD_FOLDER);
     if (!mediaStorageDir.exists()){
       if (!mediaStorageDir.mkdirs()){
-        Log.d("vidverse/origin_videos", "failed to create directory");
+        Log.d("vidverse/reversed", "failed to create directory");
         return null;
       }
     }

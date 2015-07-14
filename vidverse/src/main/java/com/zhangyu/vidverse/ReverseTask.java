@@ -50,8 +50,10 @@ public class ReverseTask extends
       Toast.makeText(activity.getApplicationContext(),
         "Reverse DONE!", Toast.LENGTH_SHORT).show();
       ContentValues values = new ContentValues();
-      values.put(OriginReversedMapping.OriginReverse.ORIGIN, origin_file_path);
-      values.put(OriginReversedMapping.OriginReverse.REVERSED, reversed_file_path);
+      values.put(OriginReversedMapping.OriginReverse.ORIGIN,
+        origin_file_path.replace("//", "/").toLowerCase());
+      values.put(OriginReversedMapping.OriginReverse.REVERSED,
+        reversed_file_path.replace("//", "/").toLowerCase());
       activity.getContentResolver().insert(OriginReversedMapping.OriginReverse.CONTENT_URI, values);
 
       Message msg = Message.obtain();

@@ -159,7 +159,7 @@ public class MyReversedVideosFragment extends Fragment {
   private List<Map<String, Object>> initContentList() {
     List<Map<String, Object>> contents = new ArrayList<>();
     List<String> reversedVideoList = new ArrayList<>();
-    Utils.getReversedVideoPath("/sdcard/vidverse", reversedVideoList);
+    Utils.getReversedVideoPath(Consts.VIDVERSE_FOLDER, reversedVideoList);
     for (int i = 0; i < reversedVideoList.size(); i++) {
       String filePath = reversedVideoList.get(i);
       String filename = Utils.getFileNameFromPath(filePath);

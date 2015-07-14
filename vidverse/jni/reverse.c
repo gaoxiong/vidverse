@@ -318,6 +318,10 @@ YUVBufferList* getYUVBufferList(int startFramePos, int endFramePos) {
       avcodec_decode_video2(st_src->codec, frame_src, &got_frame, &pt_src);
       if (got_frame) {
         framePos++;
+        // the first time is too slow, add the steps into progress
+        if (endFramePos >= frameCount) {
+          CURRENT_STEP++;
+        }
         if (framePos > endFramePos) {
           break;
         } else if (framePos >= startFramePos) {
@@ -347,7 +351,6 @@ int decode2YUV2Video(const char* SRC_FILE, const char* OUT_FMT_FILE) {
   if (frameCount <= 0) {
     goto end;
   }
-  TOTAL_STEP = frameCount;
   width = st_src->codec->width;
   height = st_src->codec->height;
   
@@ -364,6 +367,7 @@ int decode2YUV2Video(const char* SRC_FILE, const char* OUT_FMT_FILE) {
     goto end;
   }
   int loopTimes = (int) (frameCount / BUFFER_LIST_SIZE);
+  TOTAL_STEP = frameCount * 2;
   int i, encodeFramePos = 0;
   YUVBufferList *pktListHeader = NULL;
 

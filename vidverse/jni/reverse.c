@@ -295,7 +295,7 @@ int encodeYUVBufferList() {
         LOGI(LOG_LEVEL, "[output] write frame failed: %d \n", ret);
       } else {
         encodeFramePos++;
-        CURRENT_STEP += encodeFramePos;
+        CURRENT_STEP++;
       }
     }
   }
@@ -318,8 +318,8 @@ YUVBufferList* getYUVBufferList(int startFramePos, int endFramePos) {
       avcodec_decode_video2(st_src->codec, frame_src, &got_frame, &pt_src);
       if (got_frame) {
         framePos++;
-        // the first time is too slow, add the steps into progress
-        if (endFramePos >= frameCount) {
+        // the first time is too slow
+        if (endFramePos >= frameCount && framePos < startFramePos) {
           CURRENT_STEP++;
         }
         if (framePos > endFramePos) {
@@ -329,6 +329,7 @@ YUVBufferList* getYUVBufferList(int startFramePos, int endFramePos) {
                framePos, frame_src->coded_picture_number,
                av_ts2timestr(frame_src->pts, &st_src->codec->time_base));
           copyFrame2List();
+          CURRENT_STEP++;
         }
       }
     }
@@ -367,7 +368,7 @@ int decode2YUV2Video(const char* SRC_FILE, const char* OUT_FMT_FILE) {
     goto end;
   }
   int loopTimes = (int) (frameCount / BUFFER_LIST_SIZE);
-  TOTAL_STEP = frameCount * 2 + BUFFER_LIST_SIZE;
+  TOTAL_STEP = frameCount * 2 + loopTimes * BUFFER_LIST_SIZE;
   int i, encodeFramePos = 0;
   YUVBufferList *pktListHeader = NULL;
 

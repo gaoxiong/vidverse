@@ -14,6 +14,9 @@
             android:id="@+id/imgview_center_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/img_left_to_right"
+            android:layout_marginLeft="@dimen/imgview_center_img_margin"
+            android:layout_marginRight="@dimen/imgview_center_img_margin"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true" />
         <RelativeLayout

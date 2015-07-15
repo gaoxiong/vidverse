@@ -367,7 +367,7 @@ int decode2YUV2Video(const char* SRC_FILE, const char* OUT_FMT_FILE) {
     goto end;
   }
   int loopTimes = (int) (frameCount / BUFFER_LIST_SIZE);
-  TOTAL_STEP = frameCount * 2;
+  TOTAL_STEP = frameCount * 2 + BUFFER_LIST_SIZE;
   int i, encodeFramePos = 0;
   YUVBufferList *pktListHeader = NULL;
 

@@ -20,8 +20,8 @@
     <dimen name="title_text_size">28dp</dimen>
     <dimen name="imgbtn_border">5dp</dimen>
     <dimen name="gridview_item_spacing">10dp</dimen>
-    <dimen name="thumbnail_width_large">226dp</dimen>
-    <dimen name="thumbnail_height_large">286dp</dimen>
+    <dimen name="thumbnail_width_large">180dp</dimen>
+    <dimen name="thumbnail_height_large">240dp</dimen>
     <dimen name="thumbnail_bottom_bar_height">46dp</dimen>
     <dimen name="thumbnail_bottom_bar_share_width">30dp</dimen>
     <dimen name="thumbnail_bottom_bar_share_height">30dp</dimen>

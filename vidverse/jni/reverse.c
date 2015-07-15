@@ -295,7 +295,7 @@ int encodeYUVBufferList() {
         LOGI(LOG_LEVEL, "[output] write frame failed: %d \n", ret);
       } else {
         encodeFramePos++;
-        CURRENT_STEP = encodeFramePos;
+        CURRENT_STEP += encodeFramePos;
       }
     }
   }

@@ -3,14 +3,17 @@ package com.zhangyu.vidverse;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.File;
 
 
@@ -47,6 +51,8 @@ public class DoReverseActivity extends ActionBarActivity {
   private ImageView reversed_done;
   private RelativeLayout relativeLayoutOriginParent;
   private RelativeLayout relativeLayoutReversedParent;
+  private Animation animationReverseDONE;
+  private AnimationDrawable animationDrawableReversing;
   private Resources res;
   private REVERSING_STATUS status = REVERSING_STATUS.START;
 
@@ -193,25 +199,57 @@ public class DoReverseActivity extends ActionBarActivity {
     textViewTitle.setText(R.string.title_reversing);
     progressBar.setVisibility(View.VISIBLE);
     status = REVERSING_STATUS.REVERSING;
-//    reversingAnim.startAnimation();
+    reversingAnim.setBackgroundResource(R.drawable.reversing_bottom_bar);
+    animationDrawableReversing = (AnimationDrawable) reversingAnim.getBackground();
+    if (animationDrawableReversing != null && !animationDrawableReversing.isRunning()) {
+      animationDrawableReversing.start();
+    }
   }
 
   private void doWhenReversed() {
     reverseProgressThread.interrupt();
     progressBar.setVisibility(View.GONE);
     status = REVERSING_STATUS.REVERSED;
-//    reversingAnim.setVisibility(View.GONE);
     textViewTitle.setText(R.string.title_reversed);
+    if (animationDrawableReversing != null && animationDrawableReversing.isRunning()) {
+      animationDrawableReversing.stop();
+    }
+    reversingAnim.setBackgroundResource(R.drawable.img_left_to_right);
     reversed_done = (ImageView)findViewById(R.id.reversed_done);
-//    reversed_done.startAnimation();
+    animationReverseDONE = new AlphaAnimation(0.1f, 1.0f);
+    animationReverseDONE.setDuration(500);
+    animationReverseDONE.setRepeatCount(1);
+    animationReverseDONE.setAnimationListener(new Animation.AnimationListener() {
+      @Override
+      public void onAnimationStart(Animation animation) {
+
+      }
+
+      @Override
+      public void onAnimationEnd(Animation animation) {
+        reversed_done.setVisibility(View.GONE);
+      }
+
+      @Override
+      public void onAnimationRepeat(Animation animation) {
+
+      }
+    });
+    reversed_done.setVisibility(View.VISIBLE);
+    reversed_done.startAnimation(animationReverseDONE);
+    textViewTitle.setText(R.string.title_reversed);
 
     relativeLayoutOriginParent = (RelativeLayout)findViewById(R.id.relativelayout_imgbtn_origin_parent);
     imageButtonReversingOrigin.setOnClickListener(imageButtonClickListener);
     relativeLayoutReversedParent = (RelativeLayout)findViewById(R.id.relativelayout_imgbtn_reversed_parent);
     imageButtonReversingPlaceholder.setOnClickListener(imageButtonClickListener);
-//    imageButtonReversingPlaceholder.setImageBitmap(Utils.getVideoThumbnailBitmap(context,
-//      reversed_file_path));
-    current_source = VIDEO_SOURCE.ORIGIN;
+    imageButtonReversingPlaceholder.setImageBitmap(Utils.getVideoThumbnailBitmap(context,
+      reversed_file_path));
+
+    current_source = VIDEO_SOURCE.REVERSED;
+    videoView.setVideoPath(reversed_file_path);
+    videoView.setMediaController(new MediaController(this));
+    videoView.start();
   }
 
   private void doWhenReversedError() {
@@ -244,6 +282,7 @@ public class DoReverseActivity extends ActionBarActivity {
           return;
         }
         current_source = VIDEO_SOURCE.ORIGIN;
+        textViewTitle.setText(R.string.title_origin_video);
         relativeLayoutOriginParent.setBackgroundColor(res.getColor(R.color.bg_color_btn));
         relativeLayoutReversedParent.setBackgroundColor(res.getColor(R.color.bg_color_bar));
         changeVideoViewSource();
@@ -256,6 +295,7 @@ public class DoReverseActivity extends ActionBarActivity {
           return;
         }
         current_source = VIDEO_SOURCE.REVERSED;
+        textViewTitle.setText(R.string.title_reversed);
         relativeLayoutOriginParent.setBackgroundColor(res.getColor(R.color.bg_color_bar));
         relativeLayoutReversedParent.setBackgroundColor(res.getColor(R.color.bg_color_btn));
         changeVideoViewSource();

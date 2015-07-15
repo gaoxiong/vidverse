@@ -19,7 +19,7 @@
                   android:verticalSpacing="@dimen/gridview_item_spacing"
                   android:horizontalSpacing="@dimen/gridview_item_spacing"
                   android:columnWidth="@dimen/thumbnail_width_large"
-                  android:layout_margin="@dimen/gridview_item_spacing"
+                  android:layout_margin="@dimen/gridview_item_margin"
                   android:stretchMode="columnWidth"
                   android:gravity="center">
         </GridView>

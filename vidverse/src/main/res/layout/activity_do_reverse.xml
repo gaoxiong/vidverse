@@ -19,7 +19,9 @@
             <ImageView
                 android:id="@+id/imgview_center_image"
                 android:layout_width="@dimen/imgbtn_square_width"
-                android:layout_height="@dimen/imgbtn_square_height"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/imgview_center_img_margin"
+                android:layout_marginRight="@dimen/imgview_center_img_margin"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true" />
             <RelativeLayout

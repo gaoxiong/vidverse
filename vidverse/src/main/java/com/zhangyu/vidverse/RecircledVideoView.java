@@ -11,6 +11,7 @@ import android.widget.VideoView;
 public class RecircledVideoView extends VideoView {
   private String path;
   private RecircledVideoView recircledVideoView;
+  private int status = 0;
 
   public RecircledVideoView(Context context) {
     super(context);
@@ -40,8 +41,18 @@ public class RecircledVideoView extends VideoView {
     this.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
       @Override
       public void onCompletion(MediaPlayer mp) {
-        recircledVideoView.setVideoPath(path);
-        recircledVideoView.start();
+        if (status >= 0) {
+          recircledVideoView.setVideoPath(path);
+          recircledVideoView.start();
+        }
+      }
+    });
+
+    this.setOnErrorListener(new MediaPlayer.OnErrorListener(){
+      @Override
+      public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+        status = -1;
+        return false;
       }
     });
   }

@@ -156,14 +156,6 @@ public class DoReverseActivity extends ActionBarActivity {
     }
   }
 
-  @Override
-  protected void finalize() throws Throwable {
-    if (nativeInit == 0) {
-      deallocNative();
-    }
-    super.finalize();
-  }
-
   private Handler mHandler = new Handler(){
     @Override
     public void handleMessage(Message msg) {
@@ -250,6 +242,8 @@ public class DoReverseActivity extends ActionBarActivity {
     videoView.setVideoPath(reversed_file_path);
     videoView.setMediaController(new MediaController(this));
     videoView.start();
+    relativeLayoutOriginParent.setBackgroundColor(res.getColor(R.color.bg_color_bar));
+    relativeLayoutReversedParent.setBackgroundColor(res.getColor(R.color.bg_color_btn));
   }
 
   private void doWhenReversedError() {
@@ -257,8 +251,8 @@ public class DoReverseActivity extends ActionBarActivity {
     reverseProgressThread.interrupt();
     progressBar.setVisibility(View.GONE);
     status = REVERSING_STATUS.REVERSED_ERROR;
-//    reversingAnim.setVisibility(View.GONE);
     textViewTitle.setText(R.string.title_origin_video);
+    reversingAnim.setBackgroundResource(R.drawable.img_left_to_right);
   }
 
   private void changeVideoViewSource() {

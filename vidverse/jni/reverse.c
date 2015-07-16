@@ -37,6 +37,28 @@ typedef struct YUVBufferList{
 } YUVBufferList;
 YUVBufferList *pHeader = NULL;
 
+void resetAll() {
+  formatContext_src = NULL;
+  formatContext_dst = NULL;
+  st_src = NULL;
+  st_dst = NULL;
+  codec_dst = NULL;
+  codec_src = NULL;
+  frame_src = NULL;
+  frame_dst = NULL;
+  fooContext = NULL;
+  ret = -1;
+  stream_index = -1;
+  frameCount = 0;
+  width = 0;
+  height = 0;
+  encodeFramePos = 0;
+  got_frame = -1;
+  TOTAL_STEP = 0;
+  CURRENT_STEP = 0;
+  pHeader = NULL;
+}
+
 int CopyYuv(const uint8_t *buf_src, int wrap, int xsize,
             int ysize, uint8_t *buf_dst) {
   int i, pos = 0;
@@ -388,8 +410,8 @@ int decode2YUV2Video(const char* SRC_FILE, const char* OUT_FMT_FILE) {
   CURRENT_STEP = TOTAL_STEP;
 end:
   freeReuseBuffer();
-//  closeEncodeEnvironment();
-//  closeDecodeEnvironment();
+  closeEncodeEnvironment();
+  closeDecodeEnvironment();
   return ret;
 }
 
@@ -437,6 +459,7 @@ int reverse(char *file_path_src, char *file_path_desc,
   const char *TMP_FOLDER_DST = "/sdcard/Movies/r_localfile.mp4";
   LOGI(LOG_LEVEL, "reversing...");
   av_register_all();
+  resetAll();
   return decode2YUV2Video(file_path_src, file_path_desc);
 }
 

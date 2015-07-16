@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_margin="@dimen/gridview_item_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="@dimen/thumbnail_width_large"
+                android:layout_height="@dimen/thumbnail_height_large">
     <ImageView
-        android:layout_width="@dimen/thumbnail_width_large"
-        android:layout_height="@dimen/thumbnail_height_large"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/ItemImage"/>
     <RelativeLayout
         android:layout_alignParentLeft="true"
@@ -18,7 +18,7 @@
             android:layout_width="@dimen/thumbnail_bottom_bar_share_width"
             android:layout_height="@dimen/thumbnail_bottom_bar_share_height"
             android:background="@color/transparenct_color"
-            android:layout_marginLeft="15px"
+            android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             android:src="@drawable/action_bar_share"/>
         <TextView
@@ -27,8 +27,8 @@
             android:id="@+id/textview_video_length"
             android:textColor="#FFFFFF"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="15px"
-            android:textSize="15px"
+            android:layout_marginRight="10dp"
+            android:textSize="8dp"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 </RelativeLayout>

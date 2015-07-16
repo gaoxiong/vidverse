@@ -3,8 +3,8 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".MainActivity">
     <item android:id="@+id/action_share"
-          android:title="@string/action_share"
+          android:title="@string/action_feedback"
           android:orderInCategory="100"
-          android:icon="@drawable/action_bar_share"
+          android:icon="@drawable/action_bar_feedback"
           app:showAsAction="always"/>
 </menu>

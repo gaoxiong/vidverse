@@ -123,9 +123,8 @@
     <ProgressBar
         android:id="@+id/progress_bar_reversing"
         android:layout_above="@id/do_reverse_bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="@dimen/progress_bar_margin"
-        android:layout_marginRight="@dimen/progress_bar_margin"
+        android:layout_width="@dimen/progress_bar_width"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/progress_bar_margin"
         android:layout_height="@dimen/progress_bar_height"
         android:background="@drawable/progress_bar_background"
@@ -140,6 +139,6 @@
         android:id="@+id/reversed_done"
         android:src="@drawable/img_reverse_finished"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_marginTop="@dimen/reverse_finish_anim_margin_top"/>
 
 </RelativeLayout>

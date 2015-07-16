@@ -62,7 +62,7 @@ public class MyReversedVideosFragment extends Fragment {
 
   private void initGridView() {
     List<Map<String, Object>> contents = initContentList();
-    if (contents.size() == 0) {
+    if (contents.size() == 0 || true) {
       relativeLayoutGridView.setVisibility(View.GONE);
       relativeLayoutEmptyVideos.setVisibility(View.VISIBLE);
       btnStartCamera = (Button)rootview.findViewById(R.id.btn_start_camera);
